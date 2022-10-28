@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from hudu_wrapper.hudu import Hudu
+from hudu_py.API import Hudu
 hudu_vcr = vcr.VCR(filter_query_parameters=['x-api-key'])
 
 @fixture
@@ -19,8 +19,8 @@ def activity_log_keys():
 def test_info(info_keys):
     """Tests an API call to get API info"""
 
-    h = Hudu()
-    response = h.get_api_info()
+    hudu = Hudu()
+    response = hudu.get_api_info()
 
     assert isinstance(response, dict)
     assert response['version'] is not None, "The version should be in the response"
@@ -30,7 +30,7 @@ def test_info(info_keys):
 def test_activity_logs(activity_log_keys):
     """Tests an API call to activity logs"""
 
-    h = Hudu()
-    response = h.get_activity_logs(page=1)
+    hudu = Hudu()
+    response = hudu.get_activity_logs(page=1, page_size=1)
 
-    assert isinstance(response, dict)
+    assert isinstance(response, list)
